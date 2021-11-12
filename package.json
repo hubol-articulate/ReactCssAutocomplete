@@ -2,7 +2,7 @@
 	"name": "reactcssautocomplete",
 	"displayName": "React CSS Autocomplete",
 	"description": "Intellisense CSS suggestions for react",
-	"version": "0.0.3",
+	"version": "0.0.4",
 	"author": "Zack Littke-Smith",
 	"publisher": "ZackLittke-Smith",
 	"license": "MIT",

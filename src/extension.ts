@@ -15,24 +15,34 @@ const moduleSearchPaths =
 
 // a mapping of filenames to the css classes they define. this is cached so we
 // don't repeatedly parse css files. this shouldn't consume much memory compared
-// to the processing time it saves
-const filesToClassnames: Record<string, Set<string>> = {};
-// storing missing files so we don't repeatedly look them up
-const missingFiles = new Set<string>();
-// returns the css classnames defined in the given file
-export const classnamesFromCssFile = (path: string) => {
-  if (missingFiles.has(path) || !fs.existsSync(path)) {
-    missingFiles.add(path);
+// to the processing time it saves. if the css file is written to since we last
+// cached it, we invalidate and re-parse
+const cache: Record<
+  string,
+  {
+    classnames: Set<string>;
+    lastRead: number;
+  }
+> = {};
+/**
+ * classnamesFromCssFile returns the css classnames defined in the given file
+ */
+const classnamesFromCssFile = (path: string) => {
+  if (!fs.existsSync(path)) {
     return new Set<string>();
   }
-  if (!filesToClassnames[path]) {
+  const stats = fs.statSync(path);
+  if (!cache[path] || cache[path].lastRead < stats.mtimeMs) {
     const data = fs.readFileSync(path);
     const ast = csstree.parse(data.toString());
-    filesToClassnames[path] = new Set<string>();
-    csstree.walk(ast, (node) => {
+    cache[path] = {
+      classnames: new Set<string>(),
+      lastRead: stats.mtimeMs,
+    };
+    csstree.walk(ast, (node: any) => {
       // handles raw definitions
       if (node.type === "ClassSelector") {
-        filesToClassnames[path].add(node.name);
+        cache[path].classnames.add(node.name);
       }
       // handles @imports
       if (node.type === "Atrule" && node.prelude?.type === "AtrulePrelude") {
@@ -42,20 +52,27 @@ export const classnamesFromCssFile = (path: string) => {
             (p) =>
               // ♪ recursion dont hurt me ♪
               classnamesFromCssFile(p).forEach((c) =>
-                filesToClassnames[path].add(c)
+                cache[path].classnames.add(c)
               )
           );
         }
       }
     });
   }
-  return filesToClassnames[path];
+  return cache[path].classnames;
 };
 
-// returns an array of possible locations for a file. for relative paths, this
-// array will only have a single element, but absolute paths are more ambiguous
-// and could be defined in different locations according to tsconfig
-export const toAbsolutePaths = (relativePath: string, fromPath: string) => {
+/**
+ * toAbsolutePaths returns an array of possible locations for a file. for
+ * relative paths, this array will only have a single element, but absolute
+ * paths are more ambiguous and could be defined in different locations
+ * according to tsconfig
+ * for example:
+ * toAbsolutePaths("./abcd.css", "a/b/c/d") => ["a/b/c/d/abcd.css"]
+ * toAbsolutePaths("../../abcd.css", "a/b/c/d") => ["a/b/abcd.css"]
+ * toAbsolutePaths("a/b/abcd.css", "a/b/c/d") => ["node_modules/a/b/abcd.css", "client/a/b/abcd.css", ...]
+ */
+const toAbsolutePaths = (relativePath: string, fromPath: string) => {
   const parts = fromPath.split("/");
   parts.pop();
   if (relativePath.startsWith("./")) {
