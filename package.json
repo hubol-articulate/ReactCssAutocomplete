@@ -70,7 +70,8 @@
 		"vscode:prepublish": "yarn run compile",
 		"compile": "tsc -p ./",
 		"watch": "tsc -watch -p ./",
-		"lint": "eslint src --ext ts"
+		"lint": "eslint src --ext ts",
+		"package": "vsce package"
 	},
 	"devDependencies": {
 		"@types/node": "14.x",
