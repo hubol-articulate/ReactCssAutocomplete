@@ -1,87 +1,87 @@
 {
-	"name": "reactcssautocomplete",
-	"displayName": "React CSS Autocomplete",
-	"description": "Intellisense CSS suggestions for react",
-	"version": "0.0.4",
-	"author": "Zack Littke-Smith",
-	"publisher": "ZackLittke-Smith",
-	"license": "MIT",
-	"icon": "css-icon.png",
-	"galleryBanner": {
-		"color": "#2d8e91",
-		"theme": "dark"
-	},
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/zackls/ReactCssAutocomplete.git"
-	},
-	"bugs": {
-		"url": "https://github.com/zackls/ReactCssAutocomplete/issues"
-	},
-	"engines": {
-		"vscode": "^1.62.0"
-	},
-	"keywords": [
-		"css",
-		"react",
-		"intellisense",
-		"autocomplete",
-		"suggestions",
-		"multi-root ready"
-	],
-	"categories": [
-		"Programming Languages"
-	],
-	"activationEvents": [
-		"*"
-	],
-	"main": "./out/extension.js",
-	"contributes": {
-		"configuration": {
-			"type": "object",
-			"title": "ReactCssAutocomplete",
-			"properties": {
-				"reactcssautocomplete.globalCss": {
-					"type": [
-						"string",
-						"array"
-					],
-					"items": {
-						"type": "string"
-					},
-					"description": "Location of globally-available CSS resources, relative to the root workspace folder.",
-					"scope": "resource"
-				},
-				"reactcssautocomplete.moduleSearchPaths": {
-					"type": [
-						"string",
-						"array"
-					],
-					"items": {
-						"type": "string"
-					},
-					"description": "Module search paths, relative to the root workspace folder. node_modules is a very common one, if you import CSS from there.",
-					"scope": "resource"
-				}
-			}
-		}
-	},
-	"scripts": {
-		"vscode:prepublish": "yarn run compile",
-		"compile": "tsc -p ./",
-		"watch": "tsc -watch -p ./",
-		"lint": "eslint src --ext ts",
-		"package": "vsce package"
-	},
-	"devDependencies": {
-		"@types/node": "14.x",
-		"@types/vscode": "^1.62.0",
-		"typescript": "^4.4.4"
-	},
-	"dependencies": {
-		"@types/css-tree": "^1.0.7",
-		"css-tree": "^1.1.3",
-		"fs": "^0.0.1-security",
-		"tslint": "^6.1.3"
-	}
+  "name": "reactcssautocomplete",
+  "displayName": "(Hubol) React CSS Autocomplete",
+  "description": "(Hubol) Intellisense CSS suggestions for react",
+  "version": "0.0.5",
+  "author": "Zack Littke-Smith",
+  "publisher": "ZackLittke-Smith",
+  "license": "MIT",
+  "icon": "css-icon.png",
+  "galleryBanner": {
+    "color": "#2d8e91",
+    "theme": "dark"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zackls/ReactCssAutocomplete.git"
+  },
+  "bugs": {
+    "url": "https://github.com/zackls/ReactCssAutocomplete/issues"
+  },
+  "engines": {
+    "vscode": "^1.62.0"
+  },
+  "keywords": [
+    "css",
+    "react",
+    "intellisense",
+    "autocomplete",
+    "suggestions",
+    "multi-root ready"
+  ],
+  "categories": [
+    "Programming Languages"
+  ],
+  "activationEvents": [
+    "*"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "configuration": {
+      "type": "object",
+      "title": "ReactCssAutocomplete",
+      "properties": {
+        "reactcssautocomplete.globalCss": {
+          "type": [
+            "string",
+            "array"
+          ],
+          "items": {
+            "type": "string"
+          },
+          "description": "Location of globally-available CSS resources, relative to the root workspace folder.",
+          "scope": "resource"
+        },
+        "reactcssautocomplete.moduleSearchPaths": {
+          "type": [
+            "string",
+            "array"
+          ],
+          "items": {
+            "type": "string"
+          },
+          "description": "Module search paths, relative to the root workspace folder. node_modules is a very common one, if you import CSS from there.",
+          "scope": "resource"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "yarn run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "lint": "eslint src --ext ts",
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "@types/node": "14.x",
+    "@types/vscode": "^1.62.0",
+    "typescript": "^4.4.4"
+  },
+  "dependencies": {
+    "@types/css-tree": "^1.0.7",
+    "css-tree": "^1.1.3",
+    "fs": "^0.0.1-security",
+    "tslint": "^6.1.3"
+  }
 }

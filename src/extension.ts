@@ -108,7 +108,7 @@ globalCss.forEach((f) => {
 export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(
     vscode.languages.registerCompletionItemProvider(
-      { pattern: "**/*.tsx" },
+      { pattern: "**/*.{ts,js,tsx,jsx}" },
       {
         provideCompletionItems(
           document: vscode.TextDocument,
